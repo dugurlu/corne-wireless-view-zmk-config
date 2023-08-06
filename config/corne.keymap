@@ -13,10 +13,23 @@
 #define RAISE   2
 
 / {
-        keymap {
-                compatible = "zmk,keymap";
+    behaviors {
+        hm: homerow_mods {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOMEROW_MODS";
+            #binding-cells = <2>;
+            tapping-term-ms = <150>;
+            quick-tap-ms = <0>;
+            flavor = "tap-preferred";
+            bindings = <&kp>, <&kp>;
+        };
+    };
 
-                default_layer {
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
 // -------------------------------------    ----------------------------------
 // |  Q  |  W  |  E  |  R  |  T  |     |    |     |  Y  |  U  |  I  |  O  |  P  |
 // | LC/A| LS/S|  D  |  F  |  G  |     |    |     |  H  |  J  |  K  | RS/L| RC/;|
@@ -26,7 +39,7 @@
                         label = "Base";
                         bindings = <
     &none &kp Q       &kp W        &kp E &kp R    &kp T                        &kp Y     &kp U    &kp I     &kp O        &kp P          &none
-    &none &mt LCTRL A &mt LSHIFT S &kp D &kp F    &kp G                        &kp H     &kp J    &kp K     &mt RSHIFT L &mt RCTRL SEMI &none
+    &none &hm LCTRL A &hm LSHIFT S &kp D &kp F    &kp G                        &kp H     &kp J    &kp K     &hm RSHIFT L &hm RCTRL SEMI &none
     &none &kp Z       &kp X        &kp C &kp V    &kp B                        &kp N     &kp M    &kp COMMA &kp DOT      &kp FSLH       &none
                                          &kp LGUI &mo LOWER &kp SPACE  &kp RET &mo RAISE &kp RALT
                         >;
