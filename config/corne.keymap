@@ -27,6 +27,40 @@
         };
     };
 
+    combos {
+        compatible = "zmk,combos";
+
+        CMB_LBRK {
+            bindings = <&kp LEFT_BRACKET>;
+            key-positions = <14 15>;
+        };
+
+        CMB_LPAR {
+            bindings = <&kp LEFT_PARENTHESIS>;
+            key-positions = <15 16>;
+        };
+
+        CMB_TAB {
+            bindings = <&kp TAB>;
+            key-positions = <14 16>;
+        };
+
+        CMB_RBRK {
+            bindings = <&kp RIGHT_BRACKET>;
+            key-positions = <20 21>;
+        };
+
+        CMB_RPAR {
+            bindings = <&kp RIGHT_PARENTHESIS>;
+            key-positions = <20 19>;
+        };
+
+        CMB_BKSPC {
+            bindings = <&kp BACKSPACE>;
+            key-positions = <19 21>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -59,7 +93,7 @@
             bindings = <
 &none        &kp N1        &kp N2        &kp N3        &kp N4        &kp N5      &kp N6    &kp N7    &kp N8     &kp N9  &kp N0  &none
 &none  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &kp LEFT  &kp DOWN    &kp UP  &kp RIGHT  &trans  &none
-&none        &trans        &trans        &trans        &trans        &trans      &trans    &trans    &trans     &trans  &trans  &none
+&none        &trans        &trans        &trans        &trans        &trans     &kp INS   &kp DEL  &kp HOME    &kp END  &trans  &none
                                        &kp LGUI        &trans     &kp SPACE     &kp RET    &trans  &kp RALT
             >;
         };
