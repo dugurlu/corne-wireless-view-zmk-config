@@ -36,7 +36,7 @@
         };
 
         CMB_LPAR {
-            bindings = <&kp LEFT_PARENTHESIS>;
+            bindings = <&kp KP_LEFT_PARENTHESIS>;
             key-positions = <15 16>;
         };
 
@@ -51,13 +51,23 @@
         };
 
         CMB_RPAR {
-            bindings = <&kp RIGHT_PARENTHESIS>;
+            bindings = <&kp KP_RIGHT_PARENTHESIS>;
             key-positions = <20 19>;
         };
 
         CMB_BKSPC {
             bindings = <&kp BACKSPACE>;
             key-positions = <19 21>;
+        };
+
+        CMB_ESC {
+            bindings = <&kp ESC>;
+            key-positions = <2 3>;
+        };
+
+        CMB_GRAVE_TILDE {
+            bindings = <&kp GRAVE>;
+            key-positions = <9 8>;
         };
     };
 
