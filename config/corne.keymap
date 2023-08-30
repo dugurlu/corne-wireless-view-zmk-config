@@ -9,8 +9,11 @@
 #include <dt-bindings/zmk/keys.h>
 
 #define DEFAULT 0
-#define LOWER   1
-#define RAISE   2
+#define NUM     1
+#define FN      2
+#define LOWER   3
+#define RAISE   4
+#define TRI     5
 
 / {
     behaviors {
@@ -27,6 +30,14 @@
         };
     };
 
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        tri_layer {
+            if-layers = <FN RAISE>;
+            then-layer = <TRI>;
+        };
+    };
+
     combos {
         compatible = "zmk,combos";
 
@@ -36,8 +47,18 @@
         };
 
         CMB_LPAR {
-            bindings = <&kp KP_LEFT_PARENTHESIS>;
+            bindings = <&kp LEFT_PARENTHESIS>;
             key-positions = <15 16>;
+        };
+
+        CMB_LBRC {
+            bindings = <&kp LEFT_BRACE>;
+            key-positions = <16 17>;
+        };
+
+        CMB_ESC {
+            bindings = <&kp ESC>;
+            key-positions = <2 3>;
         };
 
         CMB_TAB {
@@ -51,23 +72,23 @@
         };
 
         CMB_RPAR {
-            bindings = <&kp KP_RIGHT_PARENTHESIS>;
-            key-positions = <20 19>;
+            bindings = <&kp RIGHT_PARENTHESIS>;
+            key-positions = <19 20>;
         };
 
-        CMB_BKSPC {
-            bindings = <&kp BACKSPACE>;
+        CMB_RBRC {
+            bindings = <&kp RIGHT_BRACE>;
+            key-positions = <18 19>;
+        };
+
+        CMB_SQT {
+            bindings = <&kp SINGLE_QUOTE>;
             key-positions = <19 21>;
-        };
-
-        CMB_ESC {
-            bindings = <&kp ESC>;
-            key-positions = <2 3>;
         };
 
         CMB_GRAVE_TILDE {
             bindings = <&kp GRAVE>;
-            key-positions = <9 8>;
+            key-positions = <8 9>;
         };
     };
 
@@ -75,53 +96,63 @@
         compatible = "zmk,keymap";
 
         default_layer {
-            // -------------------------------------    ----------------------------------
-            // |  Q  |  W  |  E  |  R  |  T  |     |    |     |  Y  |  U  |  I  |  O  |  P  |
-            // | LC/A| LS/S|  D  |  F  |  G  |     |    |     |  H  |  J  |  K  | RS/L| RC/;|
-            // |  Z  |  X  |  C  |  V  |  B  |     |    |     |  N  |  M  |  ,  |  .  |  /  |
-            // |                 | GUI | LWR | SPC |    | ENT | RSE | ALT |                 |
-            // -------------------------------------    ----------------------------------
-
             label = "Base";
             bindings = <
-&none        &kp Q         &kp W     &kp E      &kp R      &kp T      &kp Y      &kp U      &kp I         &kp O           &kp P  &none
-&none  &hm LCTRL A  &hm LSHIFT S     &kp D      &kp F      &kp G      &kp H      &kp J      &kp K  &hm RSHIFT L  &hm RCTRL SEMI  &none
-&none        &kp Z         &kp X     &kp C      &kp V      &kp B      &kp N      &kp M  &kp COMMA       &kp DOT        &kp FSLH  &none
-                                  &kp LGUI  &mo LOWER  &kp SPACE    &kp RET  &mo RAISE   &kp RALT
+&none  &kp Q        &kp W         &kp E     &kp R       &kp T          &kp Y          &kp U           &kp I      &kp O         &kp P           &none
+&none  &hm LCTRL A  &hm LSHIFT S  &kp D     &kp F       &kp G          &kp H          &kp J           &kp K      &hm RSHIFT L  &hm RCTRL SEMI  &none
+&none  &kp Z        &kp X         &kp C     &kp V       &kp B          &kp N          &kp M           &kp COMMA  &kp DOT       &kp FSLH        &none
+                                  &kp LGUI  &lt FN TAB  &lt NUM SPACE  &lt LOWER RET  &lt RAISE BSPC  &kp RALT
+            >;
+        };
+
+        num_layer {
+            label = "Num";
+            bindings = <
+&none  &none        &none         &none     &none       &none          &none          &kp N7          &kp N8     &kp N9        &none           &none
+&none  &none        &none         &none     &none       &none          &none          &kp N4          &kp N5     &kp N6        &none           &none
+&none  &none        &none         &none     &none       &none          &kp N0         &kp N1          &kp N2     &kp N3        &none           &none
+                                  &trans    &trans      &trans         &trans         &trans          &trans
+            >;
+        };
+
+
+        fn_layer {
+            label = "Fn";
+            bindings = <
+&none  &none        &none         &none     &none       &none          &kp F12        &kp F7          &kp F8     &kp F9        &none           &none
+&none  &none        &none         &none     &none       &none          &kp F11        &kp F4          &kp F5     &kp F6        &none           &none
+&none  &none        &none         &none     &none       &none          &kp F10        &kp F1          &kp F2     &kp F3        &none           &none
+                                  &trans    &trans      &trans         &trans         &trans          &trans
             >;
         };
 
         lower_layer {
-            // -------------------------------------    -------------------------------------
-            // |  1  |  2  |  3  |  4  |  5  |     |    |     |  6  |  7  |  8  |  9  |  0  |
-            // | BT1 | BT2 | BT3 | BT4 | BT5 |     |    |     | LFT | DWN |  UP | RGT |     |
-            // |     |     |     |     |     |     |    |     |     |     |     |     |     |
-            // |                 | GUI |     | SPC |    | ENT |     | ALT |                 |
-            // -------------------------------------    -------------------------------------
-
             label = "Lower";
             bindings = <
-&none        &kp N1        &kp N2        &kp N3        &kp N4        &kp N5      &kp N6    &kp N7    &kp N8     &kp N9  &kp N0  &none
-&none  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &kp LEFT  &kp DOWN    &kp UP  &kp RIGHT  &trans  &none
-&none        &trans        &trans        &trans        &trans        &trans     &kp INS   &kp DEL  &kp HOME    &kp END  &trans  &none
-                                       &kp LGUI        &trans     &kp SPACE     &kp RET    &trans  &kp RALT
+&none  &none        &none         &none     &none       &none          &none          &none           &none      &none         &none           &none
+&none  &kp LCTRL    &kp LSHIFT    &none     &none       &none          &kp LEFT       &kp DOWN        &kp UP     &kp RIGHT     &none           &none
+&none  &none        &none         &none     &none       &none          &kp INS        &kp DEL         &kp HOME   &kp END       &kp PIPE        &none
+                                  &trans    &trans      &trans         &trans         &trans          &trans
             >;
         };
 
         raise_layer {
-            // -------------------------------------    -------------------------------------
-            // |  !  |  @  |  #  |  $  |  %  |     |    |     |  ^  |  &  |  *  |  (  |  )  |
-            // |     |     |     |     |     |     |    |     |  -  |  =  |  [  |  ]  |  \  |
-            // |     |     |     |     |     |     |    |     |  _  |  +  |  {  |  }  | "|" |
-            // |                 | GUI |     | SPC |    | ENT |     | ALT |                 |
-            // -------------------------------------    ------------------------------------|
-
             label = "Raise";
             bindings = <
-&none  &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET   &kp AMPS  &kp KP_MULTIPLY  &kp LPAR  &kp RPAR  &none
-&none    &trans  &trans    &trans    &trans     &trans    &kp MINUS  &kp EQUAL         &kp LBKT  &kp RBKT  &kp BSLH  &none
-&none    &trans  &trans    &trans    &trans     &trans    &kp UNDER   &kp PLUS         &kp LBRC  &kp RBRC  &kp PIPE  &none
-                         &kp LGUI    &trans  &kp SPACE      &kp RET     &trans         &kp RALT
+&none  &kp EXCL     &kp AT        &kp HASH  &kp DLLR    &kp PRCNT      &kp CARET      &kp AMPS        &kp KP_MULTIPLY &none    &none           &none
+&none  &none        &none         &none     &none       &none          &kp MINUS      &kp EQUAL       &none      &none         &none           &none
+&none  &none        &none         &none     &none       &none          &kp UNDER      &kp PLUS        &none      &none         &kp BSLH        &none
+                                  &kp LGUI  &trans      &kp SPACE      &kp RET        &trans          &kp RALT
+            >;
+        };
+
+        tri_layer {
+            label = "Tri";
+            bindings = <
+&none  &none        &none         &none     &none       &none          &none          &none           &none      &none         &none           &none
+&none  &none        &none         &none     &none       &none          &bt BT_CLR     &none           &none      &none         &none           &none
+&none  &none        &none         &none     &none       &none          &bt BT_SEL 0   &bt BT_SEL 1    &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4   &none
+                                  &trans    &trans      &trans         &trans         &trans          &trans
             >;
         };
     };
